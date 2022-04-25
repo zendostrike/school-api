@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { EnrollmentService } from 'src/enrollment/enrollment.service';
 import { Repository } from 'typeorm';
 
 import { CreateUserDto } from './dto/create-user.dto';
@@ -12,6 +13,8 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    @Inject(forwardRef(() => EnrollmentService))
+    private enrollmentService: EnrollmentService,
   ) {}
 
   create(createUserDto: CreateUserDto) {
@@ -27,6 +30,10 @@ export class UserService {
       where: { id },
       relations: ['enrollments', 'enrollments.course'],
     });
+  }
+
+  findEnrollments(id: number) {
+    return this.enrollmentService.findByUserId(id);
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Repository } from 'typeorm';
@@ -8,24 +8,25 @@ import { UpdateEnrollmentDto } from './dto/update-enrollment.dto';
 
 import { Course } from 'src/course/entities/course.entity';
 import { User } from 'src/user/entities/user.entity';
+
 import { Enrollment } from './entities/enrollment.entity';
+import { CourseService } from 'src/course/course.service';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class EnrollmentService {
   constructor(
     @InjectRepository(Enrollment)
     private readonly enrollmentRepository: Repository<Enrollment>,
-    @InjectRepository(Course)
-    private readonly courseRepository: Repository<Course>,
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    @Inject(CourseService)
+    private readonly courseService: CourseService,
+    @Inject(UserService)
+    private readonly userService: UserService,
   ) {}
 
   async create(createEnrollmentDto: CreateEnrollmentDto) {
-    const student = await this.userRepository.findOne(
-      createEnrollmentDto.userId,
-    );
-    const course = await this.courseRepository.findOne(
+    const student = await this.userService.findOne(createEnrollmentDto.userId);
+    const course = await this.courseService.findOne(
       createEnrollmentDto.courseId,
     );
 
@@ -58,11 +59,16 @@ export class EnrollmentService {
     });
   }
 
+  findByUserId(userId: number) {
+    return this.enrollmentRepository.find({
+      where: { user: { id: userId } },
+      relations: ['course'],
+    });
+  }
+
   async update(id: number, updateEnrollmentDto: UpdateEnrollmentDto) {
-    const student = await this.userRepository.findOneOrFail(
-      updateEnrollmentDto.userId,
-    );
-    const course = await this.courseRepository.findOneOrFail(
+    const student = await this.userService.findOne(updateEnrollmentDto.userId);
+    const course = await this.courseService.findOne(
       updateEnrollmentDto.courseId,
     );
 
