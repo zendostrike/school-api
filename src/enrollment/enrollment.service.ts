@@ -3,15 +3,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { Repository } from 'typeorm';
 
-import { CreateEnrollmentDto } from './dto/create-enrollment.dto';
-import { UpdateEnrollmentDto } from './dto/update-enrollment.dto';
+import { CourseService } from 'src/course/services/course.service';
+import { UserService } from 'src/user/user.service';
 
+import { Enrollment } from './entities/enrollment.entity';
 import { Course } from 'src/course/entities/course.entity';
 import { User } from 'src/user/entities/user.entity';
 
-import { Enrollment } from './entities/enrollment.entity';
-import { CourseService } from 'src/course/course.service';
-import { UserService } from 'src/user/user.service';
+import { CreateEnrollmentDto } from './dto/create-enrollment.dto';
+import { UpdateEnrollmentDto } from './dto/update-enrollment.dto';
 
 @Injectable()
 export class EnrollmentService {

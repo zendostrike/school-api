@@ -6,22 +6,30 @@ import {
   IsString,
 } from 'class-validator';
 
-export class CreateCourseDto {
+export class CreateLessonDto {
   @IsNotEmpty()
   @IsString()
   readonly name: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  readonly description: string;
+  readonly description?: string;
 
   @IsOptional()
   @IsString()
-  readonly imageUrl?: string;
+  readonly videoUrl?: string;
 
   @IsNotEmpty()
   @IsNumber()
-  readonly price: number;
+  readonly courseId: number;
+
+  @IsOptional()
+  @IsNumber()
+  readonly appointmentId: number;
+
+  @IsOptional()
+  @IsNumber()
+  readonly examId: number;
 
   @IsOptional()
   @IsBoolean()

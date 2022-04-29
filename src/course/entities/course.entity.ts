@@ -1,4 +1,3 @@
-import { Enrollment } from 'src/enrollment/entities/enrollment.entity';
 import {
   Column,
   CreateDateColumn,
@@ -7,6 +6,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
+import { Enrollment } from 'src/enrollment/entities/enrollment.entity';
+import { Lesson } from './lesson.entity';
 
 @Entity()
 export class Course {
@@ -19,7 +21,7 @@ export class Course {
   @Column()
   description: string;
 
-  @Column()
+  @Column({ nullable: true })
   imageUrl: string;
 
   @Column({ default: false })
@@ -30,6 +32,9 @@ export class Course {
 
   @OneToMany(() => Enrollment, (enrollment) => enrollment.course)
   enrollments: Enrollment[];
+
+  @OneToMany(() => Lesson, (lesson) => lesson.course)
+  lessons: Lesson[];
 
   @CreateDateColumn()
   createdAt: Date;

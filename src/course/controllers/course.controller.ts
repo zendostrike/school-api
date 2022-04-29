@@ -8,10 +8,10 @@ import {
   Delete,
 } from '@nestjs/common';
 
-import { CourseService } from './course.service';
+import { CourseService } from '../services/course.service';
 
-import { CreateCourseDto } from './dto/create-course.dto';
-import { UpdateCourseDto } from './dto/update-course.dto';
+import { CreateCourseDto } from '../dto/create-course.dto';
+import { UpdateCourseDto } from '../dto/update-course.dto';
 
 @Controller('course')
 export class CourseController {
