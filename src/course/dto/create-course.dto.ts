@@ -1,5 +1,6 @@
 import {
   IsBoolean,
+  IsJSON,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -14,6 +15,10 @@ export class CreateCourseDto {
   @IsNotEmpty()
   @IsString()
   readonly description: string;
+
+  @IsOptional()
+  @IsJSON()
+  readonly info?: string;
 
   @IsOptional()
   @IsString()

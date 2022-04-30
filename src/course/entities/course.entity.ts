@@ -30,6 +30,9 @@ export class Course {
   @Column()
   price: number;
 
+  @Column('text')
+  info: string;
+
   @OneToMany(() => Enrollment, (enrollment) => enrollment.course)
   enrollments: Enrollment[];
 
