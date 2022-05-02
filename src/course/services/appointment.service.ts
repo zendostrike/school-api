@@ -18,6 +18,7 @@ export class AppointmentService {
     const appointment = this.appointmentRepository.create({
       ...createAppointmentDto,
       lesson: { id: createAppointmentDto.lessonId },
+      webinar: { id: createAppointmentDto.webinarId },
     });
 
     return this.appointmentRepository.save(appointment);
@@ -29,7 +30,7 @@ export class AppointmentService {
 
   findOne(id: number) {
     return this.appointmentRepository.findOne(id, {
-      relations: ['lesson'],
+      relations: ['lesson', 'webinar'],
     });
   }
 

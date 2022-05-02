@@ -1,11 +1,5 @@
 import { Type } from 'class-transformer';
-import {
-  IsDate,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsString,
-} from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateAppointmentDto {
   @IsNotEmpty()
@@ -27,4 +21,8 @@ export class CreateAppointmentDto {
   @IsNotEmpty()
   @IsNumber()
   readonly lessonId: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  readonly webinarId: number;
 }

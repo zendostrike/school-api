@@ -3,12 +3,14 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 import { User } from 'src/user/entities/user.entity';
 import { Course } from 'src/course/entities/course.entity';
+import { Transaction } from 'src/transaction/entities/transaction.entity';
 
 enum EnrollmentStatus {
   PENDING = 'PENDING',
@@ -27,6 +29,9 @@ export class Enrollment {
 
   @ManyToOne(() => Course, (course) => course.enrollments)
   course: Course;
+
+  @OneToMany(() => Transaction, (transaction) => transaction.enrollment)
+  transactions: Transaction[];
 
   @Column({
     type: 'enum',

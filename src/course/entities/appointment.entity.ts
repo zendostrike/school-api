@@ -2,13 +2,19 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
-  OneToOne,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 import { Lesson } from './lesson.entity';
+import { Webinar } from './webinar.entity';
+
+enum AppointmentStatus {
+  PENDING = 'pending',
+  IN_PROGRESS = 'in_progress',
+  COMPLETED = 'completed',
+}
 
 @Entity()
 export class Appointment {
@@ -16,20 +22,23 @@ export class Appointment {
   id: number;
 
   @Column()
-  title: string;
-
-  @Column({ nullable: true })
-  description: string;
+  date: Date;
 
   @Column()
   meetingUrl: string;
 
-  @Column()
-  date: Date;
+  @Column({
+    type: 'enum',
+    enum: AppointmentStatus,
+    default: AppointmentStatus.PENDING,
+  })
+  status: AppointmentStatus;
 
-  @OneToOne(() => Lesson, (lesson) => lesson.appointment)
-  @JoinColumn()
+  @ManyToOne(() => Lesson, (lesson) => lesson.appointments)
   lesson: Lesson;
+
+  @ManyToOne(() => Webinar, (webinar) => webinar.appointments)
+  webinar: Webinar;
 
   @CreateDateColumn()
   createdAt: Date;
